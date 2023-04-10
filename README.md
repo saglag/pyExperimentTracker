@@ -9,6 +9,7 @@ A simple custom GUI for tracking electrophysiology and imaging experiments. GUI 
 
 ```
 conda create env -n pyExperimentTracker python=3.7
+conda activate pyExperimentTracker
 conda install pyqt5
 conda install pandas
 conda install -c conda-forge pyinstaller
