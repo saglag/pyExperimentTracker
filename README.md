@@ -25,7 +25,7 @@ pyuic5 experiment_tracker_win7.ui -x -o experiment_tracker_win7.py
 # IMPORTANT: if the order isn't correct, it will delete the contents of the .ui file
 
 # Modify GUI to add button functionality (make changes to file_name specified in script if necessary)
-python gui_corrector.py
+python3.7 gui_corrector.py
 
 # Convert the resources file to a python file
 pyrcc5 resources.qrc -o resources_rc.py
