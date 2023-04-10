@@ -1,20 +1,21 @@
 def exportNotes(self,sender, MainWindow, filename=None):
     """Export the notes section."""
     if not filename:
-        fileName = QFileDialog.getSaveFileName(MainWindow,"Save Notes Text File","","TXT files (*.txt);; All Files (*)")
-        file_name = fileName[0]
-        if ".txt" not in file_name:
-            file_name = file_name + '.txt'
-    if sender == "animal":
-        notes = self.experiment_notes.toPlainText()
-    elif sender == "imaging":
-        notes = self.info_experiment_notes_imaging.toPlainText()
-    elif sender == "ephys":
-        notes = self.info_notes_ephys.toPlainText()
-    elif sender == "sim":
-        notes = self.info_notes_sim.toPlainText()
-    with open(file_name, 'w') as f:
-        f.write(notes)
+        file_name, _ = QFileDialog.getSaveFileName(MainWindow,"Save Notes Text File","","TXT files (*.txt);; All Files (*)")
+        if file_name:
+            if ".txt" not in file_name:
+                file_name = file_name + '.txt'
+            if sender == "animal":
+                notes = self.experiment_notes.toPlainText()
+            elif sender == "imaging":
+                notes = self.info_experiment_notes_imaging.toPlainText()
+            elif sender == "ephys":
+                notes = self.info_notes_ephys.toPlainText()
+            elif sender == "sim":
+                notes = self.info_notes_sim.toPlainText()
+            if file_name:
+                with open(file_name, 'w') as f:
+                    f.write(notes)
 
 
 def todayClick(self, sender):        
@@ -27,7 +28,7 @@ def todayClick(self, sender):
     elif sender == "imaging":
         self.info_experiment_date_imaging.setDate(today)
     elif sender == "ephys":
-        self.info_ephys_date_ephys.setDate(today)
+        self.info_experiment_date_ephys.setDate(today)
     elif sender == "sim":
         self.info_experiment_date_sim.setDate(today)
     
@@ -54,36 +55,46 @@ def nowClick(self,sender):
     
 
 def appendInfo(self, sender):
-    """Append new line to the table."""        
+    """Append new line to the table."""     
+    def convert_spin_box_value(value):
+            if value < 10:
+                tmp_value = '00' + str(value)
+            elif value >= 10 and value < 100:
+                tmp_value = '0' + str(value)
+            else:
+                tmp_value = value
+            return tmp_value
     # Imaging
     if sender == "imaging":
         # experiment info
-        experiment_date = self.info_experiment_date_imaging.date().toString("yyyy-MM-dd") #0
-        experiment_time = self.info_experiment_time_imaging.time().toString("HH:mm:ss") #1
-        experiment_type = self.info_experiment_type_imaging.currentText() #2
-        cell_depth_in_microns = self.info_cell_depth_imaging.text() #3
-        cell_region = self.info_cell_region_imaging.currentText() #4
+        experiment_date = self.info_experiment_date_imaging.date().toString("yyyy-MM-dd") 
+        experiment_time = self.info_experiment_time_imaging.time().toString("HH:mm:ss") 
+        experiment_type = self.info_experiment_type_imaging.currentText() 
+        cell_depth_in_microns = self.info_cell_depth_imaging.text() 
+        cell_region = self.info_cell_region_imaging.currentText() 
         
         # imaging info
-        isoflurane_percent = self.info_isoflurane_percent_imaging.text() #5
-        laser_power = self.info_laser_power_imaging.text() #6
-        height_in_pixels = self.info_height_in_pixels_imaging.text() #7
-        width_in_pixels = self.info_width_in_pixels_imaging.text() #8
-        num_channels = self.info_num_channels_imaging.text() #9
-        frame_rate = self.info_frame_rate_imaging.text() #11
-        scan_method = self.info_scan_method_imaging.currentText() #10
-        indicator = self.info_indicator_imaging.currentText() #12
+        isoflurane_percent = self.info_isoflurane_percent_imaging.text() 
+        laser_power = self.info_laser_power_imaging.text() 
+        height_in_pixels = self.info_height_in_pixels_imaging.text()
+        width_in_pixels = self.info_width_in_pixels_imaging.text() 
+        num_channels = self.info_num_channels_imaging.text()
+        frame_rate = self.info_frame_rate_imaging.text() 
+        scan_method = self.info_scan_method_imaging.currentText() 
+        indicator = self.info_indicator_imaging.currentText() 
         
         # drug info
-        drug_administered = self.info_drug_administered_imaging.text() #13
-        drug_concentration = self.info_drug_concentration_micromolar_imaging.text() #14
-        route_of_admin = self.info_drug_route_of_admin_imaging.text() #15
+        drug_administered = self.info_drug_administered_imaging.text() 
+        drug_concentration = self.info_drug_concentration_micromolar_imaging.text() 
+        route_of_admin = self.info_drug_route_of_admin_imaging.text() 
         drug_start_time = self.info_drug_exposure_time_start_imaging.time().toString("HH:mm:ss")
         
         # file info, animal id, and notes
-        file_name = self.info_fname_imaging.text() #17            
-        animal_id = self.animal_id.text() #16
-        notes = self.info_experiment_notes_imaging.toPlainText() #18
+        fname = self.info_fname_imaging.text()
+        fnum = self.info_fnum_imaging.value()  
+        file_name = fname + '-' + str(convert_spin_box_value(fnum))         
+        animal_id = self.animal_id.text() 
+        notes = self.info_experiment_notes_imaging.toPlainText() 
        
         # Add row to table
         row_position = self.table_data_imaging.rowCount()
@@ -109,7 +120,10 @@ def appendInfo(self, sender):
         self.table_data_imaging.setItem(row_position, 16, QtWidgets.QTableWidgetItem(drug_start_time))
         self.table_data_imaging.setItem(row_position, 17, QtWidgets.QTableWidgetItem(animal_id))
         self.table_data_imaging.setItem(row_position, 18, QtWidgets.QTableWidgetItem(file_name))
-        self.table_data_imaging.setItem(row_position, 19, QtWidgets.QTableWidgetItem(notes))            
+        self.table_data_imaging.setItem(row_position, 19, QtWidgets.QTableWidgetItem(notes)) 
+        
+        # Increase the file number
+        self.info_fnum_imaging.setValue(fnum + 1)            
             
     # Ephys
     elif sender == "ephys":
@@ -141,7 +155,9 @@ def appendInfo(self, sender):
         sampling_rate = self.info_sampling_rate_ephys.text()
         
         # file info, animal id, and notes
-        file_name = self.info_fname_ephys.text() #17            
+        fname = self.info_fname_ephys.text()
+        fnum = self.info_fnum_ephys.value()  
+        file_name = fname + '-' + str(convert_spin_box_value(fnum))           
         animal_id = self.animal_id.text() #16
         notes = self.info_notes_ephys.toPlainText() #19
         
@@ -172,6 +188,9 @@ def appendInfo(self, sender):
         self.table_data_ephys.setItem(row_position, 19, QtWidgets.QTableWidgetItem(animal_id))
         self.table_data_ephys.setItem(row_position, 20, QtWidgets.QTableWidgetItem(file_name))
         self.table_data_ephys.setItem(row_position, 21, QtWidgets.QTableWidgetItem(notes))
+        
+        # Increase the file number
+        self.info_fnum_ephys.setValue(fnum + 1)  
                           
     # Simultaneous
     elif sender == "sim":
@@ -212,8 +231,12 @@ def appendInfo(self, sender):
         sampling_rate = self.info_sampling_rate_sim.text()
         
         # file info, animal id, and notes
-        imaging_file_name = self.info_fname_imaging_sim.text()
-        ephys_file_name = self.info_fname_ephys_sim.text()
+        imaging_fname = self.info_fname_imaging_sim.text()
+        imaging_fnum = self.info_fnum_imaging_sim.value() 
+        ephys_fname = self.info_fname_ephys_sim.text()
+        ephys_fnum = self.info_fnum_ephys_sim.value() 
+        ephys_file_name = ephys_fname + '-' + str(convert_spin_box_value(ephys_fnum))
+        imaging_file_name = imaging_fname + '-' + str(convert_spin_box_value(imaging_fnum))
         animal_id = self.animal_id.text() 
         notes = self.info_notes_sim.toPlainText() 
         
@@ -251,6 +274,10 @@ def appendInfo(self, sender):
         self.table_data_sim.setItem(row_position, 27, QtWidgets.QTableWidgetItem(imaging_file_name))
         self.table_data_sim.setItem(row_position, 28, QtWidgets.QTableWidgetItem(ephys_file_name))
         self.table_data_sim.setItem(row_position, 29, QtWidgets.QTableWidgetItem(notes))
+        
+        # Increase the file number
+        self.info_fnum_imaging_sim.setValue(imaging_fnum + 1)
+        self.info_fnum_ephys_sim.setValue(ephys_fnum + 1)
 
 def exportInfo(self, sender, MainWindow, filename=None):
     """Export the table to a CSV file."""
@@ -259,8 +286,9 @@ def exportInfo(self, sender, MainWindow, filename=None):
     if not filename:
         fileName = QFileDialog.getSaveFileName(MainWindow,"Save File","","CSV files (*.csv);; All Files (*)")
         file_name = fileName[0]
-        if ".csv" not in file_name:
-            file_name = file_name + '.csv'
+        if file_name:
+            if ".csv" not in file_name:
+                file_name = file_name + '.csv'
     if sender == "animal":
         dob = self.animal_dob.date().toString("yyyy-MM-dd") 
         species = self.animal_species.currentText()
@@ -323,11 +351,13 @@ def exportInfo(self, sender, MainWindow, filename=None):
             data.append(tmp)
         df = pd.DataFrame(data, columns=headers)
         df.fillna(value=pd.np.nan, inplace=True)
-        df.to_csv(file_name, index=False)
+        if file_name:
+            df.to_csv(file_name, index=False)
     else:
         df = pd.DataFrame(data)
         df.fillna(value=pd.np.nan, inplace=True)
-        df.to_csv(file_name, index=False)
+        if file_name:
+            df.to_csv(file_name, index=False)
 
         
 
@@ -381,7 +411,15 @@ def calculatePipetteEntry(self):
         self.cell_entry.setText("Error")
 
 def delete_selected_rows(self, sender, MainWindow):
-    reply = QMessageBox.question(MainWindow, 'Confirmation', 'Are you sure you want to delete the selected rows?', QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+    msgBox = QMessageBox(
+    QMessageBox.Question,
+    "Delete Selected Rows",
+    "Are you sure you want to delete the selected rows?",
+    buttons=QMessageBox.Yes | QMessageBox.No
+    )
+    msgBox.setDefaultButton(QMessageBox.No)
+    msgBox.exec_()
+    reply = msgBox.standardButton(msgBox.clickedButton())
     if reply == QMessageBox.StandardButton.Yes:
         if sender == "imaging":
            selected_ranges = self.table_data_imaging.selectedRanges()
@@ -389,8 +427,6 @@ def delete_selected_rows(self, sender, MainWindow):
                top_row = selected_range.topRow()
                bottom_row = selected_range.bottomRow()
                for row in range(top_row, bottom_row + 1):
-                   if row == 0:  # skip the first row
-                       continue
                    self.table_data_imaging.removeRow(top_row) 
         elif sender == "ephys":
             selected_ranges = self.table_data_ephys.selectedRanges()
@@ -398,8 +434,6 @@ def delete_selected_rows(self, sender, MainWindow):
                 top_row = selected_range.topRow()
                 bottom_row = selected_range.bottomRow()
                 for row in range(top_row, bottom_row + 1):
-                    if row == 0:  # skip the first row
-                        continue
                     self.table_data_ephys.removeRow(top_row) 
         elif sender == "sim":
             selected_ranges = self.table_data_sim.selectedRanges()
@@ -407,8 +441,8 @@ def delete_selected_rows(self, sender, MainWindow):
                 top_row = selected_range.topRow()
                 bottom_row = selected_range.bottomRow()
                 for row in range(top_row, bottom_row + 1):
-                    if row == 0:  # skip the first row
-                        continue
                     self.table_data_sim.removeRow(top_row)
+                    
+
     
          

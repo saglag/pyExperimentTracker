@@ -2249,6 +2249,18 @@ class Ui_ExperimentTracker(object):
 self.tabWidget.setStyleSheet("QTabBar::tab:!selected { color: white; background-color: darkGray; } QTabBar::tab:selected { color: white; background-color: gray; }")
         _translate = QtCore.QCoreApplication.translate
         for i in range(self.tabWidget.count()):
+    self.tabWidget.tabBar().setTabTextColor(i, QColor("white"))
+self.tabWidget.setStyleSheet("QTabBar::tab:!selected { color: white; background-color: darkGray; } QTabBar::tab:selected { color: white; background-color: gray; }")
+        _translate = QtCore.QCoreApplication.translate
+        for i in range(self.tabWidget.count()):
+    self.tabWidget.tabBar().setTabTextColor(i, QColor("white"))
+self.tabWidget.setStyleSheet("QTabBar::tab:!selected { color: white; background-color: darkGray; } QTabBar::tab:selected { color: white; background-color: gray; }")
+        _translate = QtCore.QCoreApplication.translate
+        for i in range(self.tabWidget.count()):
+            self.tabWidget.tabBar().setTabTextColor(i, QColor("white"))
+        self.tabWidget.setStyleSheet("QTabBar::tab:!selected { color: white; background-color: darkGray; } QTabBar::tab:selected { color: white; background-color: gray; }")
+        _translate = QtCore.QCoreApplication.translate
+        for i in range(self.tabWidget.count()):
             self.tabWidget.tabBar().setTabTextColor(i, QColor("white"))
         self.tabWidget.setStyleSheet("QTabBar::tab:!selected { color: white; background-color: darkGray; } QTabBar::tab:selected { color: white; background-color: gray; }")
         ExperimentTracker.setWindowTitle(_translate("ExperimentTracker", "Experiment Tracker"))

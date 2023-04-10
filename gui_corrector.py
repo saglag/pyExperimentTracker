@@ -64,8 +64,7 @@ def fix_function_calls(file_path, search_replace_dict):
 
         # Truncate the file to the current position
         file.truncate()
- 
-import ast
+        
 
 def add_imports(file_path, new_imports):
     # Open the file and read all its lines
@@ -236,11 +235,11 @@ if __name__ == "__main__":
                    "from PyQt5.QtGui import QColor, QIcon\n"]
     
 
-    fix_function_calls(file_path="experiment_tracker_qt5.py", search_replace_dict= replacements)
+    fix_function_calls(file_path="experiment_tracker_win7.py", search_replace_dict= replacements)
     
-    add_functions_after_line(file_path='experiment_tracker_qt5.py', target_code_line='class Ui_ExperimentTracker(object):', functions_file_path='main_fcn.py')
+    add_functions_after_line(file_path='experiment_tracker_win7.py', target_code_line='class Ui_ExperimentTracker(object):', functions_file_path='main_fcn.py')
 
-    add_imports(file_path='experiment_tracker_qt5.py', new_imports = new_imports_qt5)
+    add_imports(file_path='experiment_tracker_win7.py', new_imports = new_imports_qt5)
     
     add_style_change()
     # formatting at where the modification is added needs manual fixing

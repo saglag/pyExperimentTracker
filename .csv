@@ -1,0 +1,2 @@
+experiment_date,experiment_time,experiment_type,cell_depth_in_microns,cell_region,isoflurane_percent,laser_power,height_in_pixels,width_in_pixels,num_channels,scan_method,frame_rate,indicator,drug_administered,drug_concentration,route_of_admin,drug_exposure_start_time,animal_id,file_name,notes
+2023-01-01,09:00:00,Half Window,,Soma,,,,,,Resonant Galvo,,spASAP5f,,,,15:30:45,,,

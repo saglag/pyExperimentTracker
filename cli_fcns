@@ -1,0 +1,14 @@
+# Important bash functions for generating python GUI for Windows 7
+
+# Make a backup copy of the ui file
+copy experiment_tracker_win7.ui experiment_tracker_win7_copy.ui
+
+# Convert the ui file to a python file
+pyuic5 experiment_tracker_win7.ui -x -o experiment_tracker_win7.py
+# IMPORTANT: if the order isn't correct, it will delete the contents of the .ui file
+
+# Convert the resources file to a python file
+pyrcc5 resources.qrc -o resources_rc.py
+
+# Compile the application
+pyinstaller --icon=images\icon.pn --onedir --name "Experiment Tracker" experiment_tracker_win7.py

@@ -1,9 +1,0 @@
-<RCC>
-  <qresource prefix="images">
-    <file>Screenshot from 2023-04-03 16-28-47.png</file>
-    <file>sine_sweep.png</file>
-    <file>bicuculline_1mM_AIP.png</file>
-    <file>z-projection_patch.png</file>
-  </qresource>
-  <qresource prefix="newPrefix"/>
-</RCC>
