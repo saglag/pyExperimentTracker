@@ -31,7 +31,7 @@ python3.7 gui_corrector.py
 pyrcc5 resources.qrc -o resources_rc.py
 
 # Compile the application
-pyinstaller --icon=images\icon.pn --onedir --name "Experiment Tracker" experiment_tracker_win7.py
+pyinstaller --icon=images\icon.png --onedir --name "Experiment Tracker" experiment_tracker_win7.py
 
 ```
 
