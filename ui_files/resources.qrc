@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="images">
+    <file>../images/z-projection_patch.png</file>
+    <file>../images/icon.png</file>
     <file>manipulator_graphics/1x/manipulatorAsset 1.png</file>
     <file>images/bicuculline_1mM_AIP.png</file>
     <file>images/icon-16.png</file>
